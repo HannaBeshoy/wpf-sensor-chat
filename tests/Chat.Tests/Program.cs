@@ -82,6 +82,8 @@ int port = server.Port;
 
 async Task<(ChatClient c, ConcurrentQueue<Message> inbox)> Connect(string user, string pw)
 {
+    // the server removes a closed session a moment after the client disposes it: wait for that
+    for (int i = 0; i < 300 && server.OnlineUsers.Contains(user, StringComparer.OrdinalIgnoreCase); i++) await Task.Delay(10);
     var c = new ChatClient();
     var inbox = new ConcurrentQueue<Message>();
     c.MessageReceived += inbox.Enqueue;
