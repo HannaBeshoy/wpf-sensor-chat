@@ -1,0 +1,23 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  core:
+    name: Protocol, server, client and tests (Linux)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - run: dotnet build wpf-sensor-chat.sln -c Release
+      - run: dotnet run --project tests/Chat.Tests -c Release --no-build
+  windows:
+    name: WPF server and client (Windows)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - run: dotnet build SensorChat.Windows.sln -c Release
+      - run: dotnet run --project tests/Chat.Tests -c Release --no-build

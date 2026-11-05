@@ -1,0 +1,6 @@
+bin/
+obj/
+*.user
+.vs/
+users.json
+firmware/esp32_chat_client/secrets.h
